@@ -1,0 +1,572 @@
+{% comment %} <section class="why-choose-us-section">
+  <div class="page-width">
+
+    <div class="why-choose-heading">
+      <p class="sub-heading">CLEAN. SHARP. PREMIUM.</p>
+      <h2>WHY CHOOSE US</h2>
+      <span class="heading-line"></span>
+    </div>
+
+    <div class="why-choose-grid">
+
+      <div class="why-box">
+        <div class="why-icon">
+          ✓
+        </div>
+
+        <div class="why-content">
+          <h3>PREMIUM QUALITY</h3>
+          <p>
+            Made from high quality materials for a perfect finish that lasts.
+          </p>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <div class="why-icon">
+          ★
+        </div>
+
+        <div class="why-content">
+          <h3>100% ROAD LEGAL</h3>
+          <p>
+            Our plates meet all DVLA standards and are 100% road legal.
+          </p>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <div class="why-icon">
+          ✦
+        </div>
+
+        <div class="why-content">
+          <h3>SHOW PLATES</h3>
+          <p>
+            Perfect for car shows, events and display use.
+          </p>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <div class="why-icon">
+          ➜
+        </div>
+
+        <div class="why-content">
+          <h3>FAST UK DELIVERY</h3>
+          <p>
+            Quick production and fast, reliable delivery across the UK.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.why-choose-us-section {
+  background: #000;
+  padding: 70px 20px;
+  color: #fff;
+}
+
+.why-choose-heading {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.why-choose-heading .sub-heading {
+  color: #8b2cff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.why-choose-heading h2 {
+  font-size: 42px;
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.heading-line {
+  width: 80px;
+  height: 3px;
+  background: #8b2cff;
+  display: block;
+  margin: 18px auto 0;
+  border-radius: 20px;
+}
+
+.why-choose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+.why-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  transition: 0.3s ease;
+}
+
+.why-box:hover {
+  border-color: #8b2cff;
+  transform: translateY(-4px);
+}
+
+.why-icon {
+  min-width: 60px;
+  height: 60px;
+  border: 1px solid rgba(139,44,255,0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b2cff;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.why-content h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.why-content p {
+  margin: 0;
+  color: #b3b3b3;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* MOBILE VIEW */
+@media screen and (max-width: 749px) {
+
+  .why-choose-us-section {
+    padding: 50px 15px;
+  }
+
+  .why-choose-heading h2 {
+    font-size: 32px;
+  }
+
+  .why-choose-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .why-box {
+    padding: 20px;
+  }
+
+  .why-icon {
+    min-width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .why-content h3 {
+    font-size: 17px;
+  }
+
+  .why-content p {
+    font-size: 14px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Why Choose Us"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}
+
+
+
+
+
+
+
+
+
+<section class="why-choose-us-section">
+  <div class="page-width">
+
+    <div class="why-choose-heading">
+
+      {% if section.settings.sub_heading != blank %}
+        <p class="sub-heading">
+          {{ section.settings.sub_heading }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      <span class="heading-line"></span>
+
+    </div>
+
+    <div class="why-choose-grid">
+
+      {% for block in section.blocks %}
+        <div class="why-box" {{ block.shopify_attributes }}>
+
+          <div class="why-icon">
+
+            {% if block.settings.icon_image != blank %}
+              <img
+                src="{{ block.settings.icon_image | image_url }}"
+                alt="{{ block.settings.title }}"
+                width="60"
+                height="60"
+                loading="lazy"
+              >
+            {% else %}
+              {{ block.settings.icon_text }}
+            {% endif %}
+
+          </div>
+
+          <div class="why-content">
+
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <p>{{ block.settings.text }}</p>
+            {% endif %}
+
+          </div>
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<style>
+.why-choose-us-section {
+  background: {{ section.settings.bg_color }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  color: #fff;
+}
+
+.why-choose-heading {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.why-choose-heading .sub-heading {
+  color: {{ section.settings.accent_color }};
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.why-choose-heading h2 {
+  font-size: 42px;
+  font-weight: 800;
+  margin: 0;
+  color: {{ section.settings.heading_color }};
+  line-height: 1.2;
+}
+
+.heading-line {
+  width: 80px;
+  height: 3px;
+  background: {{ section.settings.accent_color }};
+  display: block;
+  margin: 18px auto 0;
+  border-radius: 20px;
+}
+
+.why-choose-grid {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
+  gap: 25px;
+}
+
+.why-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  transition: 0.3s ease;
+  border-radius: 12px;
+}
+
+.why-box:hover {
+  border-color: {{ section.settings.accent_color }};
+  transform: translateY(-4px);
+}
+
+.why-icon {
+  min-width: 60px;
+  width: 60px;
+  height: 60px;
+  border: 1px solid {{ section.settings.accent_color }};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: {{ section.settings.accent_color }};
+  font-size: 26px;
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.why-icon img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.why-content h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: {{ section.settings.heading_color }};
+}
+
+.why-content p {
+  margin: 0;
+  color: {{ section.settings.text_color }};
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* MOBILE */
+@media screen and (max-width: 749px) {
+
+  .why-choose-us-section {
+    padding-top: {{ section.settings.mobile_padding_top }}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+
+  .why-choose-heading {
+    margin-bottom: 35px;
+  }
+
+  .why-choose-heading h2 {
+    font-size: 30px;
+  }
+
+  .why-choose-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .why-box {
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .why-icon {
+    min-width: 50px;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .why-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .why-content h3 {
+    font-size: 17px;
+  }
+
+  .why-content p {
+    font-size: 14px;
+  }
+}
+
+
+
+/* MORE BIG ICON IMAGE SIZE */
+@media screen and (min-width: 750px) {
+
+  .why-icon {
+    min-width: 100px;
+    width: 100px;
+    height: 100px;
+  }
+
+  .why-icon img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+  }
+
+}
+
+
+
+</style>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub Heading",
+      "default": "CLEAN. SHARP. PREMIUM."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHY CHOOSE US"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#b3b3b3"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#8b2cff"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop Columns",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop Padding Top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop Padding Bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Box",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Icon Text",
+          "default": "✓"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "PREMIUM QUALITY"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Made from high quality materials for a perfect finish that lasts."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

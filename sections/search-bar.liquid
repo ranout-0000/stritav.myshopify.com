@@ -1,0 +1,136 @@
+<section id="plate-{{ section.id }}" class="plate-section">
+
+  <div class="plate-box">
+
+    <!-- SIMPLE HEADING (NO TOGGLE) -->
+    <h2 class="plate-heading">
+      {{ section.settings.heading }}
+    </h2>
+
+    <!-- ALWAYS VISIBLE SEARCH -->
+    <form action="{{ routes.search_url }}" method="get" role="search" class="plate-form">
+
+      <input
+        type="search"
+        name="q"
+        placeholder="{{ section.settings.placeholder }}"
+        autocomplete="off"
+        spellcheck="false"
+      >
+
+      <input type="hidden" name="options[prefix]" value="last">
+
+      <button type="submit">
+        {{ section.settings.button_text }}
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Plate Search Simple",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "DESIGN YOUR PLATES"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "Enter Your Registration"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SEARCH"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#ffcc00"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Plate Search Simple"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+#plate-{{ section.id }} {
+  padding: 40px 15px;
+}
+
+#plate-{{ section.id }} .plate-box {
+  max-width: 1000px;
+  margin: auto;
+  background: {{ section.settings.bg_color }};
+  border: 2px solid {{ section.settings.border_color }};
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+}
+
+/* heading */
+#plate-{{ section.id }} .plate-heading {
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+/* form */
+#plate-{{ section.id }} .plate-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* input */
+#plate-{{ section.id }} input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+/* button */
+#plate-{{ section.id }} button {
+  background: #ffcc00;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* mobile */
+@media(max-width: 768px){
+  #plate-{{ section.id }} .plate-form {
+    flex-direction: column;
+  }
+
+  #plate-{{ section.id }} button {
+    width: 100%;
+  }
+}
+</style>

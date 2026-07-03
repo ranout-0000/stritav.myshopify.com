@@ -1,0 +1,155 @@
+<style>
+  p.para-text {
+    font-size: 12px;
+}
+</style>
+
+
+
+            <div class="product-customization">
+              <label for="add-name">PLEASE ENTER YOUR REGISTRATION :</label>
+              <input type="text" id="add-name" name="properties[Add Your Registration Number]" placeholder="Enter your registration number..." required>
+                <p class="para-text">(For show plates, enter your registration exactly as you’d like it displayed and write “SHOW PLATE” in the special instructions box on the cart page. Please also include your contact details, which can be an email address or <b>Facebook</b>, <b>Instagram</b>, or <b>TikTok</b> username, in case we need to contact you regarding your order)</p>
+              
+            </div>
+
+
+
+
+
+            
+
+
+
+{% comment %} {% assign addons = product.metafields.custom.addon.value %}
+
+{% if addons != blank %}
+  <div class="product-addons" style="margin:15px 0;">
+    <p><strong>Add Options:</strong></p>
+
+    {% for addon_product in addons %}
+      {% assign addon_variant = addon_product.selected_or_first_available_variant %}
+
+      <label style="display:flex; gap:8px; align-items:center;">
+        <input 
+          type="checkbox"
+          class="addon-checkbox"
+          value="{{ addon_variant.id }}"
+        >
+        {{ addon_product.title }} (+{{ addon_variant.price | money }})
+      </label>
+    {% endfor %}
+  </div>
+{% endif %} {% endcomment %}
+
+
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const productForm = document.querySelector('product-form form');
+  if (!productForm) return;
+
+  productForm.addEventListener('submit', function(e) {
+
+    // collect checked addons
+    const addons = [];
+    document.querySelectorAll('.addon-checkbox:checked').forEach(cb => {
+      addons.push({
+        id: Number(cb.value),
+        quantity: 1
+      });
+    });
+
+    // no addons → let Dawn handle normally
+    if (addons.length === 0) return;
+
+    e.preventDefault(); // only stop when addons exist
+
+    const formData = new FormData(productForm);
+    const mainVariantId = formData.get('id');
+
+    const items = [
+      {
+        id: Number(mainVariantId),
+        quantity: 1
+      },
+      ...addons
+    ];
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items })
+    })
+    .then(res => res.json())
+    .then(() => {
+      // trigger Dawn cart refresh
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+    })
+    .catch(err => console.error(err));
+
+  });
+
+});
+</script> {% endcomment %}
+
+
+{% comment %} 
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const productForm = document.querySelector('product-form form');
+  if (!productForm) return;
+
+  productForm.addEventListener('submit', async function(e) {
+
+    const checkedAddons = document.querySelectorAll('.addon-checkbox:checked');
+
+    // If NO addons → let Dawn handle normally
+    if (checkedAddons.length === 0) return;
+
+    e.preventDefault(); // stop Dawn completely
+
+    const formData = new FormData(productForm);
+    const mainVariantId = formData.get('id');
+    const quantity = formData.get('quantity') || 1;
+
+    // Build items array
+    const items = [
+      {
+        id: Number(mainVariantId),
+        quantity: Number(quantity)
+      }
+    ];
+
+    checkedAddons.forEach(cb => {
+      items.push({
+        id: Number(cb.value),
+        quantity: 1
+      });
+    });
+
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+      });
+
+      const data = await response.json();
+
+      // 🔥 IMPORTANT: trigger Dawn cart drawer refresh
+      document.dispatchEvent(new CustomEvent('cart:update', { detail: data }));
+
+      // Optional: open cart drawer
+      document.querySelector('cart-drawer')?.open();
+
+    } catch (error) {
+      console.error('Cart error:', error);
+    }
+
+  });
+
+});
+</script> {% endcomment %}

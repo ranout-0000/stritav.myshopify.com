@@ -1,0 +1,155 @@
+{% comment %}
+  Simple Custom Footer
+{% endcomment %}
+
+<footer class="custom-footer-section">
+  <div class="custom-footer-wrapper">
+
+    <!-- Left Side Menu -->
+    <div class="custom-footer-left">
+
+      <h3 class="footer-heading">
+        {{ section.settings.menu_heading }}
+      </h3>
+
+      {% if section.settings.footer_menu != blank %}
+        <ul class="footer-menu-list">
+          {% for link in section.settings.footer_menu.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+    </div>
+
+    <!-- Center Logo -->
+    <div class="custom-footer-center">
+
+      {% if section.settings.footer_logo != blank %}
+        <img
+          src="{{ section.settings.footer_logo | image_url: width: 500 }}"
+          alt="Footer Logo"
+          loading="lazy"
+          width=""
+          height=""
+        >
+      {% endif %}
+
+    </div>
+
+  </div>
+</footer>
+
+<style>
+.custom-footer-section{
+  background: #000;
+  padding: 60px 20px;
+}
+
+.custom-footer-wrapper{
+  max-width: 1400px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.custom-footer-left{
+  width: 300px;
+}
+
+.footer-heading{
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.footer-menu-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-menu-list li{
+  margin-bottom: 12px;
+}
+
+.footer-menu-list li a{
+  color: #d8d8d8;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.footer-menu-list li a:hover{
+  color: #fff;
+}
+
+.custom-footer-center{
+  flex: 1;
+  text-align: center;
+}
+
+.custom-footer-center img{
+  max-width: 250px;
+  width: 100%;
+  display: block;
+  margin: auto;
+}
+
+/* Mobile */
+@media screen and (max-width: 768px){
+
+  .custom-footer-wrapper{
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .custom-footer-left{
+    width: 100%;
+  }
+
+  .custom-footer-center img{
+    max-width: 180px;
+  }
+
+}
+</style>
+
+{% schema %}
+{
+  "name": "Simple Footer",
+  "settings": [
+
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer Logo"
+    },
+
+    {
+      "type": "text",
+      "id": "menu_heading",
+      "label": "Menu Heading",
+      "default": "Quick Links"
+    },
+
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Footer Menu"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Simple Footer"
+    }
+  ]
+}
+{% endschema %}

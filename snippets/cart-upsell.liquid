@@ -1,0 +1,96 @@
+<div class="cart-upsell">
+  <h3>You may also like</h3>
+
+  {% comment %} {% assign upsell_product = all_products['your-product-handle'] %} {% endcomment %}
+
+  {% assign upsell_product = all_products['sticky-pads-fixing'] %}
+
+  
+  {% if upsell_product %}
+    <div class="upsell-item">
+      <input 
+        type="checkbox" 
+        id="upsell-checkbox"
+        data-variant-id="{{ upsell_product.variants.first.id }}"
+      >
+
+      <label for="upsell-checkbox">
+        {{ upsell_product.title }} - {{ upsell_product.price | money }}
+      </label>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+.cart-upsell {
+    margin-top: 30px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.cart-upsell h3 {
+  margin-bottom: 10px;
+}
+
+.upsell-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const checkbox = document.getElementById('upsell-checkbox');
+
+  if (!checkbox) return;
+
+  // ✅ Auto-check if product already in cart
+  fetch('/cart.js')
+    .then(res => res.json())
+    .then(cart => {
+      const variantId = checkbox.dataset.variantId;
+      const exists = cart.items.find(i => i.variant_id == variantId);
+      if (exists) checkbox.checked = true;
+    });
+
+  checkbox.addEventListener('change', function() {
+    const variantId = this.dataset.variantId;
+
+    if (this.checked) {
+      // ADD PRODUCT
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: variantId,
+          quantity: 1
+        })
+      })
+      .then(() => location.reload());
+
+    } else {
+      // REMOVE PRODUCT
+      fetch('/cart.js')
+        .then(res => res.json())
+        .then(cart => {
+          const item = cart.items.find(i => i.variant_id == variantId);
+
+          if (item) {
+            fetch('/cart/change.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: item.key,
+                quantity: 0
+              })
+            })
+            .then(() => location.reload());
+          }
+        });
+    }
+  });
+});
+</script>

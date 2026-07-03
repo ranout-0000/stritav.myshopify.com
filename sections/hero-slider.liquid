@@ -1,0 +1,347 @@
+<section class="custom-hero-slider">
+  <div class="hero-slider-wrapper">
+
+    {% for block in section.blocks %}
+      <div class="hero-slide">
+
+        {% if block.settings.image != blank %}
+          <img
+            src="{{ block.settings.image | image_url: width: 2200 }}"
+            alt="{{ block.settings.heading }}"
+            class="hero-slide-image"
+          >
+        {% endif %}
+
+        <div class="hero-slide-content">
+
+          <h2 class="hero-slide-heading">
+            {{ block.settings.heading }}
+          </h2>
+
+          <div class="hero-controls">
+
+            <button class="hero-control-btn prev-btn">
+              ‹
+            </button>
+
+            <button class="hero-control-btn next-btn">
+              ›
+            </button>
+
+            <a href="{{ block.settings.button_link }}" class="hero-purchase-btn">
+              {{ block.settings.button_text }}
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<style>
+.custom-hero-slider{
+  width:100%;
+  overflow:hidden;
+}
+
+.hero-slider-wrapper{
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+}
+
+.hero-slider-wrapper::-webkit-scrollbar{
+  display:none;
+}
+
+.hero-slide{
+  min-width:100%;
+  position:relative;
+  scroll-snap-align:start;
+}
+
+.hero-slide-image{
+  width:100%;
+  height:100vh;
+  object-fit:cover;
+}
+
+.hero-slide-content{
+  position:absolute;
+  left:60px;
+  bottom:60px;
+}
+
+.hero-slide-heading{
+  background:#b84dff;
+  color:#fff;
+  padding:15px 20px;
+  font-size:60px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.hero-controls{
+  display:flex;
+  align-items:center;
+}
+
+.hero-control-btn,
+.hero-purchase-btn{
+  background:#111;
+  color:#fff;
+  border:none;
+  height:50px;
+  padding:0 25px;
+  font-size:20px;
+  cursor:pointer;
+  text-decoration:none;
+  align-content: center;
+}
+
+@media(max-width:749px){
+
+  .hero-slide-image{
+    height:70vh;
+  }
+
+  .hero-slide-content{
+    left:15px;
+    right:15px;
+    bottom:20px;
+  }
+
+  .hero-slide-heading{
+    font-size:24px;
+    padding:10px 14px;
+  }
+
+  .hero-control-btn,
+  .hero-purchase-btn{
+    height:42px;
+    font-size:16px;
+    padding:0 16px;
+  }
+
+}
+
+
+
+
+.hero-slide {
+    background: black;
+}
+
+
+</style>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+  const slider = document.querySelector('.hero-slider-wrapper');
+
+  if (!slider) return;
+
+  const slides = slider.querySelectorAll('.hero-slide');
+
+  let index = 0;
+  let autoSlide;
+
+  function goToSlide(i){
+
+    slider.scrollTo({
+      left: slides[i].offsetLeft,
+      behavior: 'smooth'
+    });
+
+  }
+
+  function nextSlide(){
+
+    index++;
+
+    if(index >= slides.length){
+      index = 0;
+    }
+
+    goToSlide(index);
+
+  }
+
+  function prevSlide(){
+
+    index--;
+
+    if(index < 0){
+      index = slides.length - 1;
+    }
+
+    goToSlide(index);
+
+  }
+
+  // NEXT BUTTON
+  document.querySelectorAll('.next-btn').forEach((btn)=>{
+
+    btn.addEventListener('click', function(e){
+
+      e.preventDefault();
+
+      nextSlide();
+
+      restartAutoSlide();
+
+    });
+
+  });
+
+  // PREV BUTTON
+  document.querySelectorAll('.prev-btn').forEach((btn)=>{
+
+    btn.addEventListener('click', function(e){
+
+      e.preventDefault();
+
+      prevSlide();
+
+      restartAutoSlide();
+
+    });
+
+  });
+
+  // AUTO SLIDE EVERY 2 SECONDS
+  function startAutoSlide(){
+
+    autoSlide = setInterval(function(){
+
+      nextSlide();
+
+    }, 3000);
+
+  }
+
+  // RESTART TIMER AFTER CLICK
+  function restartAutoSlide(){
+
+    clearInterval(autoSlide);
+
+    startAutoSlide();
+
+  }
+
+  // START AUTO SLIDER
+  startAutoSlide();
+
+});
+</script>
+{% comment %} <script>
+document.addEventListener('DOMContentLoaded', function(){
+
+  const slider = document.querySelector('.hero-slider-wrapper');
+
+  if (!slider) return;
+
+  const slides = slider.querySelectorAll('.hero-slide');
+
+  let index = 0;
+
+  function goToSlide(i){
+
+    slider.scrollTo({
+      left: slides[i].offsetLeft,
+      behavior: 'smooth'
+    });
+
+  }
+
+  document.querySelectorAll('.next-btn').forEach((btn)=>{
+
+    btn.addEventListener('click', function(e){
+
+      e.preventDefault();
+
+      index++;
+
+      if(index >= slides.length){
+        index = 0;
+      }
+
+      goToSlide(index);
+
+    });
+
+  });
+
+  document.querySelectorAll('.prev-btn').forEach((btn)=>{
+
+    btn.addEventListener('click', function(e){
+
+      e.preventDefault();
+
+      index--;
+
+      if(index < 0){
+        index = slides.length - 1;
+      }
+
+      goToSlide(index);
+
+    });
+
+  });
+
+});
+</script> {% endcomment %}
+
+
+
+
+{% schema %}
+{
+  "name": "Custom Hero Slider",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "4D M-SPORT NEON PLATES"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Purchase"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero Slider"
+    }
+  ]
+}
+{% endschema %}

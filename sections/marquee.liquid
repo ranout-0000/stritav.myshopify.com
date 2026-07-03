@@ -1,0 +1,155 @@
+<section class="hh-marquee" style="background: {{ section.settings.bg_color }};">
+
+  {% if section.settings.heading != blank %}
+    <h2 class="hh-heading" style="color: {{ section.settings.text_color }};">
+      {{ section.settings.heading }}
+    </h2>
+  {% endif %}
+
+  <div class="hh-marquee-wrapper">
+    <div class="hh-marquee-track">
+
+      {% for block in section.blocks %}
+        <div class="hh-item">
+          {% if block.settings.image %}
+            <img src="{{ block.settings.image | image_url: width: 300 }}" alt="">
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p style="color: {{ section.settings.text_color }};">
+              {{ block.settings.text }}
+            </p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      {% for block in section.blocks %}
+        <div class="hh-item">
+          {% if block.settings.image %}
+            <img src="{{ block.settings.image | image_url: width: 300 }}" alt="">
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p style="color: {{ section.settings.text_color }};">
+              {{ block.settings.text }}
+            </p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+.hh-marquee {
+  padding: 60px 0;
+  overflow: hidden;
+}
+
+.hh-heading {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* WRAPPER */
+.hh-marquee-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* TRACK */
+.hh-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 25s linear infinite;
+}
+
+/* ITEM */
+.hh-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 40px;
+  min-width: 180px;
+  transition: 0.3s ease;
+}
+
+/* IMAGE */
+.hh-item img {
+  width: 350px;
+  margin-bottom: 10px;
+}
+
+/* HOVER EFFECT */
+.hh-item:hover {
+  transform: translateY(-5px);
+}
+
+/* ANIMATION */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* HOVER PAUSE */
+.hh-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hh-item {
+    margin: 0 20px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Marquee Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Features"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Your text here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Slider"
+    }
+  ]
+}
+{% endschema %}
